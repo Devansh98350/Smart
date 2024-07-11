@@ -66,7 +66,7 @@ export default function Home() {
       {isChatOpen && (
         <div className="fixed bottom-[90px] right-4 w-[400px] h-[440px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col">
           <div className="flex justify-between items-center p-3 bg-blue-500 text-white rounded-t-lg">
-            <h4 className="text-lg font-bold">Chat with Devanshu</h4>
+            <h4 className="text-lg font-bold">Chat with SmartGrader</h4>
           </div>
           <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 flex flex-col space-y-4">
             {messages.map((m, index) => (
