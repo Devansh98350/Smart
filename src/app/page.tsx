@@ -37,9 +37,17 @@ export default function Home() {
   const { messages, input, setInput, handleInputChange, handleSubmit } =
     useChat({
       api: "/api/chat",
+      onMessage: (message: Message) => {
+        // Specify the type here
+        setTimeout(() => {
+          setHistory((prev) => [...prev, message]);
+        }, 5000);
+      },
     });
 
+  const [isInputDisabled, setIsInputDisabled] = useState(true);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
@@ -50,15 +58,16 @@ export default function Home() {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, history]);
 
   const handlePredefinedQuestionClick = async (question: string) => {
     setInput(question);
-    setPredefinedQuestions([]); // Clear the predefined questions
-
-    // Wait for the input to be updated before calling handleSubmit
+    setPredefinedQuestions([]);
+    setIsInputDisabled(false);
     await new Promise((resolve) => setTimeout(resolve, 0));
-    handleSubmit({ preventDefault: () => {} });
+    formRef.current?.dispatchEvent(
+      new Event("submit", { cancelable: true, bubbles: true })
+    );
   };
 
   const handleSpeechToText = () => {
@@ -75,11 +84,12 @@ export default function Home() {
       recognition.onresult = (event: any) => {
         const speechResult = event.results[0][0].transcript;
         setInput(speechResult);
-
-        // Wait for the input to be updated before calling handleSubmit
-        new Promise((resolve) => setTimeout(resolve, 0)).then(() =>
-          handleSubmit({ preventDefault: () => {} })
-        );
+        setIsInputDisabled(false);
+        new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
+          formRef.current?.dispatchEvent(
+            new Event("submit", { cancelable: true, bubbles: true })
+          );
+        });
       };
 
       recognition.onerror = (event: any) => {
@@ -126,7 +136,7 @@ export default function Home() {
                   <button
                     key={`question-${index}`}
                     onClick={() => handlePredefinedQuestionClick(question)}
-                    className="block w-full text-left bg-gray-100 hover:bg-gray-200 p-1.5 rounded ml-2 mr-2"
+                    className="block w-full text-left bg-gray-100 hover:bg-gray-200 p-1.5 rounded"
                     style={{ fontSize: "12px" }}
                   >
                     {question}
@@ -136,6 +146,7 @@ export default function Home() {
             )}
           </div>
           <form
+            ref={formRef}
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmit(e);
@@ -147,20 +158,25 @@ export default function Home() {
                 type="button"
                 className="p-2 bg-white text-blue-500 flex items-center justify-center"
                 onClick={handleSpeechToText}
+                disabled={isInputDisabled} // Disable the mic button
               >
                 <MicIcon />
               </button>
               <input
-                className="flex-1 p-2 border-none rounded-l focus:outline-none"
+                className={`flex-1 p-2 border-none rounded-l focus:outline-none ${
+                  isInputDisabled ? "cursor-not-allowed" : ""
+                }`}
                 value={input}
                 placeholder="Say something..."
                 onChange={handleInputChange}
+                disabled={isInputDisabled} // Disable input
               />
               <button
                 type="submit"
                 className={`p-2 bg-white rounded-r flex items-center justify-center ${
                   input ? "text-blue-500" : "text-white"
                 }`}
+                disabled={isInputDisabled} // Disable the submit button
               >
                 <SendIcon />
               </button>
