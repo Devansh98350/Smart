@@ -4,12 +4,19 @@ import { useState, useEffect, useRef } from 'react';
 import { useChat } from 'ai/react'; // Adjust import as per your actual useChat implementation
 import ChatBubble from '../app/components/ChatBubble';
 import MessageIcon from '@mui/icons-material/Message';
+import { Message } from "./types/message";
 import CloseIcon from '@mui/icons-material/Close';
 import MicIcon from '@mui/icons-material/Mic';
 import SendIcon from '@mui/icons-material/Send';
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [history, setHistory] = useState<Message[]>([
+    {
+      role: "SmartGrader",
+      content: "Hello! How are you? How can I help you?",
+    },
+  ]);
   const { messages, input, setInput, handleInputChange, handleSubmit } = useChat({
     api: '/api/chat',
   });
@@ -69,9 +76,9 @@ export default function Home() {
             <h4 className="text-lg font-bold">Chat with SmartGrader</h4>
           </div>
           <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 flex flex-col space-y-4">
-            {messages.map((m, index) => (
+            {[...history, ...messages].map((m, index) => (
               <ChatBubble
-                key={`message-${index}`} // Ensure key is a string
+                key={`message-${index}`} 
                 role={m.role === 'user' ? 'User' : 'SmartGrader'}
                 content={m.content}
               />
