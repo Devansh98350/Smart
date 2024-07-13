@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useChat } from "ai/react";
+import { useChat, CreateMessage } from "ai/react";
 import ChatBubble from "../app/components/ChatBubble";
 import MessageIcon from "@mui/icons-material/Message";
 import CloseIcon from "@mui/icons-material/Close";
@@ -37,12 +37,6 @@ export default function Home() {
   const { messages, input, setInput, handleInputChange, handleSubmit } =
     useChat({
       api: "/api/chat",
-      onMessage: (message: Message) => {
-        // Specify the type here
-        setTimeout(() => {
-          setHistory((prev) => [...prev, message]);
-        }, 5000);
-      },
     });
 
   const [isInputDisabled, setIsInputDisabled] = useState(true);
@@ -59,6 +53,21 @@ export default function Home() {
         chatContainerRef.current.scrollHeight;
     }
   }, [messages, history]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+
+      const transformedMessage: Message = {
+        role: lastMessage.role === "user" ? "user" : "SmartGrader",
+        content: lastMessage.content,
+      };
+
+      setTimeout(() => {
+        setHistory((prev) => [...prev, transformedMessage]);
+      }, 5000);
+    }
+  }, [messages]);
 
   const handlePredefinedQuestionClick = async (question: string) => {
     setInput(question);
@@ -110,6 +119,7 @@ export default function Home() {
       <button
         onClick={toggleChat}
         className="fixed bottom-6 right-10 bg-blue-500 text-white p-4 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-115 flex items-center justify-center"
+        aria-label={isChatOpen ? "Close chat" : "Open chat"}
       >
         {isChatOpen ? <CloseIcon /> : <MessageIcon />}
       </button>
@@ -158,7 +168,8 @@ export default function Home() {
                 type="button"
                 className="p-2 bg-white text-blue-500 flex items-center justify-center"
                 onClick={handleSpeechToText}
-                disabled={isInputDisabled} // Disable the mic button
+                disabled={isInputDisabled}
+                aria-label="Start speech recognition"
               >
                 <MicIcon />
               </button>
@@ -169,14 +180,16 @@ export default function Home() {
                 value={input}
                 placeholder="Say something..."
                 onChange={handleInputChange}
-                disabled={isInputDisabled} // Disable input
+                disabled={isInputDisabled}
+                aria-label="Chat input"
               />
               <button
                 type="submit"
                 className={`p-2 bg-white rounded-r flex items-center justify-center ${
                   input ? "text-blue-500" : "text-white"
                 }`}
-                disabled={isInputDisabled} // Disable the submit button
+                disabled={isInputDisabled}
+                aria-label="Send message"
               >
                 <SendIcon />
               </button>
