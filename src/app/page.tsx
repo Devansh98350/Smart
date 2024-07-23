@@ -1,202 +1,134 @@
-"use client";
-
-import { useState, useEffect, useRef } from "react";
-import { useChat, CreateMessage } from "ai/react";
-import ChatBubble from "../app/components/ChatBubble";
-import MessageIcon from "@mui/icons-material/Message";
-import CloseIcon from "@mui/icons-material/Close";
-import MicIcon from "@mui/icons-material/Mic";
-import SendIcon from "@mui/icons-material/Send";
-import { Message } from "./types/message";
-
-declare global {
-  interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
-  }
-}
-
-const initialPredefinedQuestions = [
-  "How do I create an account on SmartGrader?",
-  "Can you explain how the AI feedback feature works?",
-  "What are the subscription plans available for educational institutions?",
-  "How do I track my progress on the SmartGrader platform?",
-];
+import Chatbot from "./components/Chatbot";
 
 export default function Home() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [history, setHistory] = useState<Message[]>([
-    {
-      role: "SmartGrader",
-      content: "Hello! How can I help you?",
-    },
-  ]);
-  const [predefinedQuestions, setPredefinedQuestions] = useState(
-    initialPredefinedQuestions
-  );
-  const { messages, input, setInput, handleInputChange, handleSubmit } =
-    useChat({
-      api: "/api/chat",
-    });
-
-  const [isInputDisabled, setIsInputDisabled] = useState(true);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
-  };
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [messages, history]);
-
-  // useEffect(() => {
-  //   if (messages.length > 0) {
-  //     const lastMessage = messages[messages.length - 1];
-
-  //     const transformedMessage: Message = {
-  //       role: lastMessage.role === "user" ? "user" : "SmartGrader",
-  //       content: lastMessage.content,
-  //     };
-
-  //     setTimeout(() => {
-  //       setHistory((prev) => [...prev, transformedMessage]);
-  //     }, 5000);
-  //   }
-  // }, [messages]);
-
-  const handlePredefinedQuestionClick = async (question: string) => {
-    setInput(question);
-    setPredefinedQuestions([]);
-    setIsInputDisabled(false);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    formRef.current?.dispatchEvent(
-      new Event("submit", { cancelable: true, bubbles: true })
-    );
-  };
-
-  const handleSpeechToText = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = "en-US";
-      recognition.start();
-
-      recognition.onresult = (event: any) => {
-        const speechResult = event.results[0][0].transcript;
-        setInput(speechResult);
-        setIsInputDisabled(false);
-        new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
-          formRef.current?.dispatchEvent(
-            new Event("submit", { cancelable: true, bubbles: true })
-          );
-        });
-      };
-
-      recognition.onerror = (event: any) => {
-        console.error("Speech recognition error", event);
-        alert("An error occurred with speech recognition. Please try again.");
-      };
-
-      recognition.onspeechend = () => {
-        recognition.stop();
-      };
-    } else {
-      alert("Sorry, your browser does not support speech recognition!");
-    }
-  };
-
   return (
     <div>
-      <button
-        onClick={toggleChat}
-        className="fixed bottom-6 right-10 bg-blue-500 text-white p-4 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-115 flex items-center justify-center"
-        aria-label={isChatOpen ? "Close chat" : "Open chat"}
+      <div
+        className="content"
+        style={{
+          padding: "30px",
+          backgroundColor: "white",
+          lineHeight: "2",
+        }}
       >
-        {isChatOpen ? <CloseIcon /> : <MessageIcon />}
-      </button>
-
-      {isChatOpen && (
-        <div className="fixed bottom-[90px] right-4 w-[400px] h-[440px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col">
-          <div className="flex justify-between items-center p-3 bg-blue-500 text-white rounded-t-lg">
-            <h4 className="text-lg font-bold">Chat with SmartGrader</h4>
-          </div>
-          <div
-            ref={chatContainerRef}
-            className="flex-1 overflow-y-auto p-4 flex flex-col space-y-4"
-          >
-            {[...history, ...messages].map((m, index) => (
-              <ChatBubble
-                key={`message-${index}`}
-                role={m.role === "user" ? "User" : "SmartGrader"}
-                content={m.content}
-              />
-            ))}
-            {history.length === 1 && predefinedQuestions.length > 0 && (
-              <div className="space-y-2">
-                {predefinedQuestions.map((question, index) => (
-                  <button
-                    key={`question-${index}`}
-                    onClick={() => handlePredefinedQuestionClick(question)}
-                    className="block w-full text-left bg-gray-100 hover:bg-gray-200 p-1.5 rounded"
-                    style={{ fontSize: "12px" }}
-                  >
-                    {question}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <form
-            ref={formRef}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(e);
-            }}
-            className="p-2 flex items-center"
-          >
-            <div className="flex w-full border border-gray-300 rounded shadow-sm">
-              <button
-                type="button"
-                className="p-2 bg-white text-blue-500 flex items-center justify-center"
-                onClick={handleSpeechToText}
-                disabled={isInputDisabled}
-                aria-label="Start speech recognition"
-              >
-                <MicIcon />
-              </button>
-              <input
-                className={`flex-1 p-2 border-none rounded-l focus:outline-none ${
-                  isInputDisabled ? "cursor-not-allowed" : ""
-                }`}
-                value={input}
-                placeholder="Say something..."
-                onChange={handleInputChange}
-                disabled={isInputDisabled}
-                aria-label="Chat input"
-              />
-              <button
-                type="submit"
-                className={`p-2 bg-white rounded-r flex items-center justify-center ${
-                  input ? "text-blue-500" : "text-white"
-                }`}
-                disabled={isInputDisabled}
-                aria-label="Send message"
-              >
-                <SendIcon />
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "30px",
+            color: "red",
+            fontWeight: "bold",
+          }}
+        >
+          Welcome to SmartGrader
+        </h1>
+        <p>
+          <strong>
+            Chatbots have revolutionized the way we interact with digital
+            platforms.
+          </strong>{" "}
+          They are not only enhancing customer service by providing instant
+          responses but also streamlining various aspects of business
+          operations. When integrating a chatbot into a web application, it’s
+          crucial to choose the right technology stack to ensure smooth and
+          efficient interactions.
+        </p>
+        <p>
+          <strong>
+            Next.js is an excellent choice for developing web applications with
+            server-side rendering.
+          </strong>{" "}
+          This React framework optimizes performance by pre-rendering pages on
+          the server, which leads to faster initial load times and improved SEO.
+          For chatbot development, Next.js’s capabilities allow for creating a
+          highly responsive interface that seamlessly integrates with
+          server-side APIs and services.
+        </p>
+        <p>
+          <strong>
+            LangChain is a game-changer when it comes to integrating advanced
+            language models into applications.
+          </strong>{" "}
+          It provides an abstraction layer that simplifies interaction with
+          language models like GPT-3. By using LangChain, developers can focus
+          on crafting engaging conversations and user experiences without
+          worrying about the underlying complexities of API calls and data
+          handling.
+        </p>
+        <p>
+          <strong>
+            Combining Next.js with LangChain offers several key benefits for
+            chatbot development.
+          </strong>{" "}
+          Next.js’s server-side rendering ensures that your chatbot application
+          is fast and efficient, while LangChain enhances the chatbot’s ability
+          to understand and generate human-like text. This combination provides
+          a robust foundation for creating sophisticated conversational agents.
+        </p>
+        <p>
+          <strong>
+            One of the major advantages of using Next.js is its support for both
+            static and dynamic content.
+          </strong>{" "}
+          This flexibility allows you to build chat applications that can handle
+          real-time interactions as well as pre-rendered content. For chatbots,
+          this means that users can enjoy a seamless experience with quick
+          responses and consistent performance, regardless of the type of
+          content they are interacting with.
+        </p>
+        <p>
+          <strong>
+            LangChain simplifies the process of integrating language models into
+            your application.
+          </strong>{" "}
+          It handles the complexities of API requests and responses, allowing
+          developers to focus on designing conversational flows and improving
+          user engagement. LangChain’s robust API makes it easier to incorporate
+          advanced features like context-aware responses and personalized
+          interactions.
+        </p>
+        <p>
+          <strong>
+            Next.js’s built-in features like API routes and server-side
+            functions enhance the capabilities of your chatbot.
+          </strong>{" "}
+          You can create custom API endpoints to handle chatbot interactions,
+          manage user sessions, and integrate with third-party services. This
+          flexibility allows you to build a scalable and feature-rich chatbot
+          application that meets your specific needs.
+        </p>
+        <p>
+          <strong>
+            Implementing a chatbot with LangChain and Next.js can also improve
+            user satisfaction.
+          </strong>{" "}
+          By providing instant and accurate responses, your chatbot can handle a
+          variety of user queries efficiently. This leads to a more engaging
+          user experience and can significantly reduce the workload on human
+          support teams.
+        </p>
+        <p>
+          <strong>
+            Another benefit of this technology stack is the ease of deployment
+            and scalability.
+          </strong>{" "}
+          Next.js applications are highly scalable, allowing you to handle
+          increased traffic and user interactions without compromising
+          performance. LangChain’s integration with Next.js ensures that your
+          chatbot can grow and evolve alongside your application’s needs.
+        </p>
+        <p>
+          <strong>
+            In summary, using Next.js and LangChain together provides a powerful
+            and flexible solution for chatbot development.
+          </strong>{" "}
+          Next.js offers a performant and dynamic web framework, while LangChain
+          simplifies the integration of advanced language models. This
+          combination enables the creation of intelligent, responsive, and
+          scalable chat applications that enhance user interactions and drive
+          business value.
+        </p>
+      </div>
+      <Chatbot />
     </div>
   );
 }
