@@ -54,20 +54,20 @@ export default function Home() {
     }
   }, [messages, history]);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
+  // useEffect(() => {
+  //   if (messages.length > 0) {
+  //     const lastMessage = messages[messages.length - 1];
 
-      const transformedMessage: Message = {
-        role: lastMessage.role === "user" ? "user" : "SmartGrader",
-        content: lastMessage.content,
-      };
+  //     const transformedMessage: Message = {
+  //       role: lastMessage.role === "user" ? "user" : "SmartGrader",
+  //       content: lastMessage.content,
+  //     };
 
-      setTimeout(() => {
-        setHistory((prev) => [...prev, transformedMessage]);
-      }, 5000);
-    }
-  }, [messages]);
+  //     setTimeout(() => {
+  //       setHistory((prev) => [...prev, transformedMessage]);
+  //     }, 5000);
+  //   }
+  // }, [messages]);
 
   const handlePredefinedQuestionClick = async (question: string) => {
     setInput(question);
