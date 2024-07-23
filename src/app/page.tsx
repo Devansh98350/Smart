@@ -9,6 +9,7 @@ export default function Home() {
           padding: "30px",
           backgroundColor: "white",
           lineHeight: "2",
+          textAlign: "justify",
         }}
       >
         <h1
