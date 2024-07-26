@@ -7,6 +7,7 @@ import { FaAsterisk } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 const Demo = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
@@ -118,7 +119,7 @@ const Demo = ({ open, onClose }) => {
       >
         <div className="flex flex-col md:flex-row px-2 sm:px-5 py-10 rounded-sm">
           <div className="md:w-1/2 flex flex-col bg-sky-200 rounded p-4 sm:px-4">
-            <img
+            <Image
               src="images/home/smart-logo.png"
               alt="Smart Grader Logo"
               className="w-32 lg:w-44"

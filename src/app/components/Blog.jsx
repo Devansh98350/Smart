@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Data from "../../../blogs.json";
 import Footer from "./Footer";
+import Image from "next/image";
 
 function Blog() {
   const [expandedBlogs, setExpandedBlogs] = useState([]);
@@ -68,7 +69,7 @@ function Blog() {
                   </p>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
-                      <img
+                      <Image
                         className="w-7 h-7 rounded-full"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                         alt="Jese Leos avatar"

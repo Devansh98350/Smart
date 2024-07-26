@@ -444,6 +444,7 @@ import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Image from "next/image";
 
 const Testimonials = () => {
   const testimonials = [
@@ -561,7 +562,7 @@ const Testimonials = () => {
                 transition={{ duration: 0.5, delay: index * 0.2 }}
               >
                 <div className="flex flex-col gap-[2%]">
-                  <img
+                  <Image
                     className="w-16 h-16 mx-auto mb-4 rounded-full"
                     src={testimonial.image}
                     alt={testimonial.name}

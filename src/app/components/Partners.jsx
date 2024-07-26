@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const Partners = () => {
   // Define the logos with paths pointing to the public directory
@@ -36,7 +37,7 @@ const Partners = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <img
+              <Image
                 src={logo}
                 alt={`Partner logo ${index + 1}`}
                 className="h-auto transition-transform duration-300 hover:scale-105"

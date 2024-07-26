@@ -4,6 +4,7 @@ import Modal from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 const ContactUs = ({ open, onClose }) => {
   useEffect(() => {
@@ -35,7 +36,7 @@ const ContactUs = ({ open, onClose }) => {
       >
         <div className="flex flex-col md:flex-row px-2 sm:px-5 py-10 rounded-sm">
           <div className="md:w-1/2 flex flex-col px-2 sm:px-4">
-            <img
+            <Image
               src="images/home/smart-logo.png"
               alt="Smart Grader Logo"
               className="w-32 lg:w-44"
@@ -53,7 +54,7 @@ const ContactUs = ({ open, onClose }) => {
               See Smarter AI Recruiting in Action
             </h2>
             <div>
-              <img
+              <Image
                 loading="lazy"
                 src="/images/home/ThanksMsg.jpg"
                 className="mt-1.5 "

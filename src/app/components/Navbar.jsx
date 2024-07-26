@@ -7,6 +7,7 @@ import { FaUser, FaSignInAlt } from "react-icons/fa";
 import { MdArrowOutward } from "react-icons/md";
 import { useRouter } from "next/navigation"; // Correct import
 import Demo from "../components/Demo";
+import Image from "next/image";
 
 const Navbar = () => {
   const router = useRouter(); // Correct usage
@@ -37,7 +38,7 @@ const Navbar = () => {
         <div className="container mx-auto flex flex-row justify-between items-center p-4">
           <div className="text-lg font-semibold">
             <span onClick={() => router.push("/")}>
-              <img
+              <Image
                 src="images/home/smart-logo1.png"
                 alt="Smart Grader Logo"
                 className="cursor-pointer w-28 md:w-32 lg:w-44"

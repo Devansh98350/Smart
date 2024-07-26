@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import Image from "next/image";
 
 const cardVariants = {
   offscreen: {
@@ -55,7 +56,7 @@ const JobSeekersSection = () => {
             Tailored Interview <br /> Preparation for Job Seekers
           </h2>
           <div className="flex w-full md:mx-auto px-4 justify-center lg:justify-end">
-            <img
+            <Image
               loading="lazy"
               src="/images/home/HomeLine.png"
               className="mt-1.5 max-w-full aspect-[14.29] w-[307px]"
@@ -65,7 +66,7 @@ const JobSeekersSection = () => {
           {/* Content including ticks and texts */}
           <div className="my-4 py-4">
             <div className="flex items-center  gap-3">
-              <img
+              <Image
                 loading="lazy"
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"
@@ -79,7 +80,7 @@ const JobSeekersSection = () => {
               Experience job-like interview scenarios and questions.
             </p>
             <div className="flex items-center gap-2 mt-4 ">
-              <img
+              <Image
                 loading="lazy"
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"
@@ -91,7 +92,7 @@ const JobSeekersSection = () => {
               Receive instant, AI-driven feedback on your answers and delivery.
             </p>
             <div className="flex items-center gap-2 mt-4">
-              <img
+              <Image
                 loading="lazy"
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"

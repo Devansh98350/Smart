@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Data from "../../../blogs.json";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import Image from "next/image"; // Import the Image component from next/image
 
 function Blog() {
   const [expandedBlogs, setExpandedBlogs] = useState<number[]>([]);
@@ -40,7 +41,7 @@ function Blog() {
             <div className="grid gap-8 lg:grid-cols-2">
               {Data.map((blog, index) => (
                 <motion.article
-                  key={index}
+                  key={index} // Ensure each element has a unique key
                   className="p-6 bg-white rounded-lg border border-gray-200 shadow-md"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -70,10 +71,12 @@ function Blog() {
                   </p>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
-                      <img
-                        className="w-7 h-7 rounded-full"
+                      <Image
+                        className="rounded-full"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                         alt="Jese Leos avatar"
+                        width={28}
+                        height={28}
                       />
                       <span className="font-medium">{blog.author}</span>
                     </div>

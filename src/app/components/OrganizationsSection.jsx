@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import Image from "next/image";
 
 const cardVariants = {
   offscreen: {
@@ -53,7 +54,7 @@ const OrganizationsSection = () => {
           AI-Powered Hiring for <br /> Organizations
         </h2>
         <div className="flex w-full md:mx-auto  justify-center lg:justify-start">
-          <img
+          <Image
             loading="lazy"
             src="/images/home/HomeLine.png"
             className="mt-1.5 max-w-full aspect-[14.29] w-[307px]"
@@ -62,7 +63,7 @@ const OrganizationsSection = () => {
 
         <div className="my-4 py-4 text-left lg:text-left">
           <div className="flex items-center gap-2 lg:justify-start">
-            <img
+            <Image
               loading="lazy"
               src="/images/home/rounded-tick-icon.png"
               className="w-6 h-6"
@@ -76,7 +77,7 @@ const OrganizationsSection = () => {
             Quickly identify the best candidates with AI-driven insights.
           </p>
           <div className="flex items-center gap-2 mt-4  lg:justify-start">
-            <img
+            <Image
               loading="lazy"
               src="/images/home/rounded-tick-icon.png"
               className="w-6 h-6"
@@ -90,7 +91,7 @@ const OrganizationsSection = () => {
             Tailor interview questions to fit your company’s needs.
           </p>
           <div className="flex items-center gap-2 mt-4 lg:justify-start">
-            <img
+            <Image
               loading="lazy"
               src="/images/home/rounded-tick-icon.png"
               className="w-6 h-6"
