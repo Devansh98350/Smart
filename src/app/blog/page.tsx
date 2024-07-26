@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Data from "../../../blogs.json";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Image from "next/image"; // Import the Image component from next/image
+import Image from "next/image";
 
 function Blog() {
   const [expandedBlogs, setExpandedBlogs] = useState<number[]>([]);
@@ -41,7 +41,7 @@ function Blog() {
             <div className="grid gap-8 lg:grid-cols-2">
               {Data.map((blog, index) => (
                 <motion.article
-                  key={index} // Ensure each element has a unique key
+                  key={blog.id} // Ensure each element has a unique key
                   className="p-6 bg-white rounded-lg border border-gray-200 shadow-md"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}

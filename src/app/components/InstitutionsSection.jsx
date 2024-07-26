@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation"; // Updated import
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
@@ -29,7 +29,7 @@ const InstitutionsSection = () => {
     // Perform any logout logic here, e.g., clearing authentication tokens, etc.
 
     // Construct the URL with query parameters
-    const url = new URL("http://smart-grader-app-ts.vercel.app/signUp");
+    const url = new URL("/signUp", window.location.origin); // Use relative URL with origin
     url.searchParams.append("userType", "educational");
 
     // Redirect to the URL with parameters
@@ -46,11 +46,13 @@ const InstitutionsSection = () => {
       style={{ marginBottom: "20px" }}
     >
       <div className="md:w-2/3 lg:2/3 xl:w-1/2 mx-auto flex items-start mt-4">
-        <motion.img
+        <Image
           loading="lazy"
           src="/images/home/institutions-banner.png"
           className="w-full rounded-md lg:px-12 object-cover"
           alt="Institutions Banner"
+          width={1200} // Add width and height for optimization
+          height={600}
         />
       </div>
       <div className="flex flex-col lg:justify-center w-full lg:w-1/2 text-slate-800">
@@ -63,6 +65,9 @@ const InstitutionsSection = () => {
               loading="lazy"
               src="/images/home/HomeLine.png"
               className="mt-1.5 max-w-full aspect-[14.29] w-[307px]"
+              alt="Home Line"
+              width={307} // Add width and height for optimization
+              height={21}
             />
           </div>
 
@@ -73,6 +78,8 @@ const InstitutionsSection = () => {
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"
                 alt="Tick Icon"
+                width={24} // Add width and height for optimization
+                height={24}
               />
               <span className="font-semibold text-slate-700">
                 Secure Testing Environment
@@ -87,6 +94,8 @@ const InstitutionsSection = () => {
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"
                 alt="Tick Icon"
+                width={24} // Add width and height for optimization
+                height={24}
               />
               <span className="font-semibold text-slate-700">
                 Comprehensive Assessments
@@ -101,6 +110,8 @@ const InstitutionsSection = () => {
                 src="/images/home/rounded-tick-icon.png"
                 className="w-6 h-6"
                 alt="Tick Icon"
+                width={24} // Add width and height for optimization
+                height={24}
               />
               <span className="font-semibold text-slate-700">
                 Automated Grading
@@ -110,7 +121,6 @@ const InstitutionsSection = () => {
               Save time with accurate and fair AI grading.
             </p>
           </div>
-          {/* Bullet points and other text details... */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-[#01AFF4] text-white px-2 sm:px-6 py-3 mt-6 mb-10 font-spline text-sm rounded hover:bg-blue-500 transition duration-300 flex items-center cursor-pointer w-fit"
