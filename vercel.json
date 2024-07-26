@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/signIn",
+        "destination": "https://smart-grader-app-ts.vercel.app/signIn",
+        "permanent": true
+      }
+    ]
+  }
+  
