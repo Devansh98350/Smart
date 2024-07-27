@@ -1,4 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+
+import { NextRequest, NextResponse } from 'next/server';
 import { RetrievalQAChain } from 'langchain/chains';
 
 let chain: RetrievalQAChain | null = null;
@@ -22,23 +23,15 @@ async function fetchChain(): Promise<RetrievalQAChain> {
   return chain;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { query } = req.body;
-    try {
-      const chain = await fetchChain();
-      if (!chain) {
-        throw new Error('Chain is not available');
-      }
-      const response = await chain.call({ query });
-      res.status(200).json({ question: query, answer: response.text });
-    } catch (error) {
-      const err = error as Error;
-      console.error('Error fetching answer from chain:', err);
-      res.status(500).json({ success: false, error: err.message });
-    }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+export async function POST(req: NextRequest) {
+  try {
+    const { query } = await req.json();
+    const chain = await fetchChain();
+    const response = await chain.call({ query });
+    return NextResponse.json({ question: query, answer: response.text });
+  } catch (error) {
+    const err = error as Error;
+    console.error('Error fetching answer from chain:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
