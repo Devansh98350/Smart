@@ -10,7 +10,7 @@ export const runtime = 'edge';
 
 async function fetchChain() {
   try {
-    const res = await fetch('http://localhost:3000/src/app/api/load-chain');
+    const res = await fetch('https://smartgrader-page-aed7uol2k-devanshu-kumars-projects.vercel.app/src/app/api/load-chain');
     const data = await res.json();
     if (!data.success) {
       throw new Error(data.error);
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
     try {
       const chain = await fetchChain();
-      const chainRes = await fetch('http://localhost:3000/src/app/api/get-answer', {
+      const chainRes = await fetch('https://smartgrader-page-aed7uol2k-devanshu-kumars-projects.vercel.app/src/app/api/get-answer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ let chain: RetrievalQAChain | null = null;
 // Fetch the existing chain from the initialized state
 async function fetchChain(): Promise<RetrievalQAChain> {
   if (!chain) {
-    const res = await fetch('http://localhost:3000/src/app/api/load-chain');
+    const res = await fetch('https://smartgrader-page-aed7uol2k-devanshu-kumars-projects.vercel.app/src/app/api/load-chain');
     const data = await res.json();
     if (data.success) {
       // Assuming the chain object is being returned in the response
