@@ -437,7 +437,6 @@
 // };
 
 // export default Testimonials;
-
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
@@ -454,6 +453,8 @@ const Testimonials = () => {
       text: "SmartGrader has been a game-changer in my interview preparation. The realistic mock interviews and instant AI feedback helped me identify my weak areas and improve significantly. I landed my dream job at a top tech company in Bangalore thanks to SmartGrader!",
       image: "/images/home/profiles/Ananya.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Ritika P.",
@@ -461,6 +462,8 @@ const Testimonials = () => {
       text: "As an HR manager, SmartGrader has streamlined our hiring process tremendously. The customizable interview questions and AI-driven insights have made it easier to identify top talent efficiently. It's an invaluable tool for our organization in Mumbai.",
       image: "/images/home/profiles/Ritika.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Ananya R.",
@@ -468,6 +471,8 @@ const Testimonials = () => {
       text: "Preparing for exams has never been easier. SmartGrader's secure testing environment and automated grading system have saved me so much time. The detailed progress tracking also helps me stay on top of my studies at Delhi University. I highly recommend it to all students!",
       image: "/images/home/profiles/Ananya.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Rajesh K.",
@@ -475,6 +480,8 @@ const Testimonials = () => {
       text: "SmartGrader's AI-powered assessments and detailed analytics have revolutionized the way we conduct interviews. The platform provides deep insights into candidate performance, allowing us to make data-driven hiring decisions with confidence at our Hyderabad office.",
       image: "/images/home/profiles/Rajesh.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Priya L.",
@@ -482,6 +489,8 @@ const Testimonials = () => {
       text: "SmartGrader has been a fantastic addition to our training programs. The tailored question sets and realistic interview scenarios have greatly improved our students' readiness for the job market. The feedback from the AI is invaluable in helping them understand where they need to improve.",
       image: "/images/home/profiles/Priya.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Vikram M.",
@@ -489,6 +498,8 @@ const Testimonials = () => {
       text: "The AI feedback provided by SmartGrader is incredibly detailed and accurate. It has helped me refine my problem-solving skills and communication abilities. The progress tracking feature is excellent for seeing my improvement over time while working at a tech startup in Pune.",
       image: "/images/home/profiles/Vikram.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Sneha D.",
@@ -496,6 +507,8 @@ const Testimonials = () => {
       text: "SmartGrader's platform is user-friendly and offers comprehensive tools for interview preparation. The customizable question sets are particularly useful for targeting specific areas of improvement. It's a must-have for anyone serious about advancing their career in the IT sector.",
       image: "/images/home/profiles/Sneha.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Karan N.",
@@ -503,6 +516,8 @@ const Testimonials = () => {
       text: "As a recent graduate, SmartGrader helped me prepare for technical interviews with ease. The mock interviews and AI feedback were instrumental in securing a position at a leading engineering firm in Chennai. I highly recommend it to all job seekers.",
       image: "/images/home/profiles/Karan.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
     {
       name: "Meera G.",
@@ -510,6 +525,8 @@ const Testimonials = () => {
       text: "SmartGrader's detailed analytics and feedback have been incredibly helpful in my MBA interview preparation. The realistic interview scenarios and tailored questions have boosted my confidence. I'm grateful for the support this platform provided during my job search in Gurgaon.",
       image: "/images/home/profiles/Meera.png",
       rating: 5,
+      width: 64,
+      height: 64,
     },
   ];
 
@@ -551,12 +568,11 @@ const Testimonials = () => {
             Hear From Our Satisfied Users
           </h2>
         </div>
-        <Slider {...settings} className="testimonial-slider  ">
+        <Slider {...settings} className="testimonial-slider">
           {testimonials.map((testimonial, index) => (
-            <div className="flex flex-col gap-[20%] h-min">
+            <div className="flex flex-col gap-[20%] h-min" key={index}>
               <motion.div
-                key={index}
-                className="testimonial-card flex flex-col justify-between m-4 px-6 text-center p-6 bg-white shadow-lg rounded-lg border border-gray-200 transition duration-300 transform hover:scale-105 h-[450px] "
+                className="testimonial-card flex flex-col justify-between m-4 px-6 text-center p-6 bg-white shadow-lg rounded-lg border border-gray-200 transition duration-300 transform hover:scale-105 h-[450px]"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
@@ -566,6 +582,8 @@ const Testimonials = () => {
                     className="w-16 h-16 mx-auto mb-4 rounded-full"
                     src={testimonial.image}
                     alt={testimonial.name}
+                    width={testimonial.width}
+                    height={testimonial.height}
                   />
                   <h3 className="text-xl font-bold font-spline mb-2 text-sky-600">
                     {testimonial.name}

@@ -25,6 +25,8 @@ const Hero = () => {
               loading="lazy"
               src="/images/home/HomeLine.png"
               className="mt-1.5 max-w-full aspect-[14.29] w-[307px]"
+              width={307}
+              height={20}
             />
           </motion.div>
           <motion.p
@@ -60,6 +62,8 @@ const Hero = () => {
             src="/images/home/hero-image.png"
             alt="Designed For Interview"
             className="w-full md:w-3/4"
+            width={1200}
+            height={800}
           />
         </motion.div>
       </div>

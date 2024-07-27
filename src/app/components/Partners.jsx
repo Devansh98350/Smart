@@ -41,6 +41,8 @@ const Partners = () => {
                 src={logo}
                 alt={`Partner logo ${index + 1}`}
                 className="h-auto transition-transform duration-300 hover:scale-105"
+                width={1200}
+                height={800}
               />
             </motion.div>
           ))}

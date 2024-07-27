@@ -39,8 +39,10 @@ const Navbar = () => {
           <div className="text-lg font-semibold">
             <span onClick={() => router.push("/")}>
               <Image
-                src="images/home/smart-logo1.png"
+                src="/images/home/smart-logo1.png"
                 alt="Smart Grader Logo"
+                width={176}
+                height={44}
                 className="cursor-pointer w-28 md:w-32 lg:w-44"
               />
             </span>
