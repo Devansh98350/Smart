@@ -36,7 +36,7 @@ const Chatbot = () => {
   );
   const { messages, input, setInput, handleInputChange, handleSubmit } =
     useChat({
-      api: "../api/chat",
+      api: "https://smartgrader-page-38f1oir44-devanshu-kumars-projects.vercel.app/src/app/api/chat",
     });
 
   const [isInputDisabled, setIsInputDisabled] = useState(true);
