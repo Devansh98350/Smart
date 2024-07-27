@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { RetrievalQAChain } from "langchain/chains";
+import { RetrievalQAChain } from 'langchain/chains';
 
 let chain: RetrievalQAChain | null = null;
 
@@ -17,11 +17,10 @@ async function fetchChain(): Promise<RetrievalQAChain> {
     }
   }
   if (!chain) {
-    throw new Error("Chain is not initialized");
+    throw new Error('Chain is not initialized');
   }
   return chain;
 }
-
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -29,14 +28,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const chain = await fetchChain();
       if (!chain) {
-        throw new Error("Chain is not available");
+        throw new Error('Chain is not available');
       }
       const response = await chain.call({ query });
       res.status(200).json({ question: query, answer: response.text });
     } catch (error) {
-      // Assert that the error is an instance of Error
       const err = error as Error;
-      console.error("Error fetching answer from chain:", err);
+      console.error('Error fetching answer from chain:', err);
       res.status(500).json({ success: false, error: err.message });
     }
   } else {
@@ -44,4 +42,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
-
